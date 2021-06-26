@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.time.Clock;
 import java.util.*;
 
-public class Generator {
+public class GeneratorApp {
 
 
     public static void main(String[] args) throws IOException {

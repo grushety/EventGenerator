@@ -1,4 +1,3 @@
-Main.class
 domain\StreamObject.class
 utils\POGService.class
 domain\Event.class
