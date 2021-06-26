@@ -24,7 +24,7 @@ public class StreamObject implements Comparable<StreamObject>{
     public void setTs(Instant ts){
         this.ts = ts;
     }
-    private Instant getAts(){
+    public Instant getAts(){
         return ats;
     }
     public void setAts(Instant ats){
