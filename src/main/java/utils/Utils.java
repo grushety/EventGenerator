@@ -6,9 +6,7 @@ import domain.StreamObject;
 
 import java.time.Clock;
 import java.time.Duration;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -24,18 +22,23 @@ public class Utils {
 
     public Set<StreamObject> addPOGsToEventStream(Set<Event> events, int pog_distance, int max_index) {
         int lastIndex = pog_distance;
+        int startIndex = 0;
         Set<StreamObject> stream = events.stream().map(event -> (StreamObject) event).collect(Collectors.toSet());
         while (lastIndex <= max_index) {
             int index = lastIndex;
-            Optional<Event> matchingObject = events.stream().
-                    filter(p -> p.getId() == index).
-                    findFirst();
-            if (matchingObject.isEmpty()) {
+            int finalStartIndex = startIndex;
+            /* use the latest ats in pog distance and latest ts */
+           List<Event> partStream = events.stream()
+                   .filter(p -> p.getId() < index && p.getId() >= finalStartIndex)
+                   .collect(Collectors.toList());
+            if (partStream.size() == 0) {
                 lastIndex++;
             } else {
-                Event event = matchingObject.get();
-                POG pog = new POG(event.getType(), event.getTs(), event.getAts());
+                Event eventMaxAts = partStream.stream().max(StreamObject.getAtsComparator()).orElseThrow(NoSuchElementException::new);
+                Event eventMaxTs = partStream.stream().max(StreamObject.getTsComparator()).orElseThrow(NoSuchElementException::new);
+                POG pog = new POG(eventMaxAts.getType(), eventMaxTs.getTs(), eventMaxAts.getAts());
                 stream.add(pog);
+                startIndex = lastIndex;
                 lastIndex += pog_distance;
             }
         }

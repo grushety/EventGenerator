@@ -66,7 +66,7 @@ public class GeneratorApp {
 
         // sort event stream after ats
         List<StreamObject> streamObjectList = new ArrayList<>(stream);
-        Collections.sort(streamObjectList);
+        streamObjectList.sort(StreamObject.getAtsComparator());
 
         // convert event stream to json and save in file
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

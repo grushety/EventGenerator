@@ -1,8 +1,9 @@
 package domain;
 
 import java.time.Instant;
+import java.util.Comparator;
 
-public class StreamObject implements Comparable<StreamObject>{
+public class StreamObject{
     private EventType type;
     private Instant ts; // generation timestamp
     private Instant ats; // arrival timestamp
@@ -34,8 +35,20 @@ public class StreamObject implements Comparable<StreamObject>{
         return pog;
     }
 
-    @Override
-    public int compareTo(StreamObject o) {
-        return getAts().compareTo(o.getAts());
+    public static Comparator<StreamObject> getAtsComparator() {
+        return new Comparator<StreamObject>() {
+            public int compare(StreamObject a, StreamObject b) {
+                return a.getAts().compareTo(b.getAts());
+            }
+        };
+    }
+
+    public static Comparator<StreamObject> getTsComparator() {
+        return new Comparator<StreamObject>() {
+            @Override
+            public int compare(StreamObject a, StreamObject b) {
+                return a.getTs().compareTo(b.getTs());
+            }
+        };
     }
 }
