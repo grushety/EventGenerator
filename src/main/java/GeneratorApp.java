@@ -18,23 +18,22 @@ public class GeneratorApp {
 
         //Generation Parameters
         int number_of_events = 100; //for each Event Type
-        int out_of_order_quota = 30; // in percent
+        int out_of_order_quota = 50; // in percent
         int negative_quota_from_out_of_order = 20; // in percent
         int negative_quota = (int) ((double) out_of_order_quota / 100 * negative_quota_from_out_of_order);
         int pog_quota = 20;
         int pog_distance = number_of_events / pog_quota;
         int min_time_in_order = 1;
-        int max_time_in_order = 10;
-        int max_time_out_of_order = 50;
-        int min_generation_delay = 5;
-        int max_generation_delay = 30;
+        int max_time_in_order = 5;
+        int max_time_out_of_order = 15;
+        int max_generation_delay = 10;
         Clock startClock = Clock.systemUTC();
 
         // generate event stream
         Set<StreamObject> stream = new HashSet<>();
         for (EventType eventType : EventType.values()) {
             Set<Event> subStream = new HashSet<>();
-            Clock generationTime = util.getNextTime(startClock, min_generation_delay, max_generation_delay);
+            Clock generationTime = util.getNextTime(startClock, max_time_in_order, max_generation_delay);
             int out_of_order_counter = 0;
             int normal_counter = 0;
             for (int i = 0; i < number_of_events; i++) {
@@ -53,7 +52,7 @@ public class GeneratorApp {
                     }
                     Event event = new Event(i, eventType, generationTime.instant(), arrivalTime.instant());
                     subStream.add(event);
-                    generationTime = util.getNextTime(generationTime, min_generation_delay, max_generation_delay);
+                    generationTime = util.getNextTime(generationTime, max_time_in_order, max_generation_delay);
                 }
                 // the rest (negative events) will be not produced
             }
