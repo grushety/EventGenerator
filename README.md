@@ -12,7 +12,7 @@ We can vary the number of negative and out-of-order events in the stream using t
 We can also vary the POG percentage in generated data.   
 The **Query Engine App** imports a produced JSON file and process Stream Objects from it with a given query and time window.
 
-References
+## References  
 <a id="1">[1]</a> 
 M. Liu, M. Li, E. Rundensteiner, D. Golovnya and K. Claypool,  *" Sequence Pattern Query Processing over Out-of-Order Event Streams,"* in 2013 IEEE 29th International Conference on Data Engineering (ICDE), null, 2009 pp. 784-795.
 DOI: 10.1109/ICDE.2009.95  
